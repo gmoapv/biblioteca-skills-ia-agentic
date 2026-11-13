@@ -94,3 +94,6 @@ fichas-de-desarrollo/            SKILL.md
 ejemplos/                        flujo completo de punta a punta
 assets/                          banner del README (SVG) y versión PNG para redes
 ```
+
+## 📄 Licencia
+Publicado bajo la [licencia MIT](./LICENSE): puedes usar, modificar y compartir estas skills, incluso con fines comerciales, manteniendo el aviso de autoría.
