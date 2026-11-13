@@ -1,5 +1,7 @@
 # 🤖 Biblioteca de skills para llevar la IA a tu trabajo
 
+![Flujo de las cuatro skills: el coordinador encarga el mapa del proceso, que sigue por la ruta ágil o la técnica y vuelve al coordinador para consolidar](./assets/banner.svg)
+
 Cuatro **skills** (habilidades de agente) en español para descubrir qué partes de un trabajo conviene hacer con inteligencia artificial y dejarlas listas para usar: como prompts que la propia persona copia y pega, o como fichas para que un desarrollador las automatice.
 
 No son prompts sueltos: son módulos de instrucciones que se encadenan. Funcionan en Claude (Claude Code, la app y Proyectos), ChatGPT, Gemini, Copilot y agentes como Antigravity, Cursor o Windsurf.
@@ -86,4 +88,5 @@ mapeo-de-procesos/               SKILL.md, formato-mapa-de-proceso.md, rubrica-i
 prompts-maestros/                SKILL.md
 fichas-de-desarrollo/            SKILL.md
 ejemplos/                        flujo completo de punta a punta
+assets/                          banner del README (SVG) y versión PNG para redes
 ```
