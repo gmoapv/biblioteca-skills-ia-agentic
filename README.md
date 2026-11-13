@@ -52,11 +52,15 @@ mkdir -p ~/.claude/skills
 cp -R coordinador-automatizacion-ia mapeo-de-procesos prompts-maestros fichas-de-desarrollo ~/.claude/skills/
 ```
 
-**Claude (app o web)**: comprime cada carpeta en un .zip y súbelo en *Configuración → Capacidades → Skills*.
+**Claude (app o web)**: descarga los cuatro `.zip` de la [última versión en Releases](https://github.com/gmoapv/biblioteca-skills-ia-agentic/releases/latest) y súbelos en *Configuración → Capacidades → Skills*.
+
+<details>
+<summary>¿Modificaste las skills? Genera tus propios .zip</summary>
 
 ```bash
 for s in coordinador-automatizacion-ia mapeo-de-procesos prompts-maestros fichas-de-desarrollo; do zip -qr "$s.zip" "$s" -x '*.DS_Store'; done
 ```
+</details>
 
 **Proyectos de Claude o GPT personalizados**: sube los archivos `.md` de las cuatro carpetas como conocimiento y agrega en las instrucciones:
 > "Tienes cuatro skills en tu conocimiento. Cuando alguien quiera usar IA en su trabajo, sigue `coordinador-automatizacion-ia/SKILL.md`, que te dirá cuándo usar las otras tres."
