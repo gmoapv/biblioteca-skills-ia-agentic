@@ -1,54 +1,89 @@
-# 🤖 Biblioteca de Skills de IA (Agentic Workflow)
+# 🤖 Biblioteca de skills para llevar la IA a tu trabajo
 
-Esta biblioteca contiene **Habilidades de Agente (Skills)** diseñadas para integrarse en flujos de trabajo avanzados de IA (como **Antigravity**, **Claude Projects**, **GitHub Copilot/Codex** o **Custom GPTs**).
+Cuatro **skills** (habilidades de agente) en español para descubrir qué partes de un trabajo conviene hacer con inteligencia artificial y dejarlas listas para usar: como prompts que la propia persona copia y pega, o como fichas para que un desarrollador las automatice.
 
-No son simples "prompts" para copiar y pegar; son **módulos de instrucción estructurada** que dotan a la IA de capacidades específicas para ejecutar procesos complejos en cadena.
+No son prompts sueltos: son módulos de instrucciones que se encadenan. Funcionan en Claude (Claude Code, la app y Proyectos), ChatGPT, Gemini, Copilot y agentes como Antigravity, Cursor o Windsurf.
 
-## � El Flujo de Trabajo (The Chain)
+## 🔗 Cómo funciona el flujo
 
-Estas skills están diseñadas para encadenarse secuencialmente:
+```
+                 coordinador-automatizacion-ia
+                 (recibe, enruta, consolida y revisa)
+                              │
+                              ▼
+                     mapeo-de-procesos
+          relato del trabajo → mapa con semáforos 🟢 🟡 🔴
+                              │
+              ┌───────────────┴───────────────┐
+              ▼                               ▼
+      prompts-maestros                fichas-de-desarrollo
+       (ruta ágil)                       (ruta técnica)
+  prompts para hacerlo hoy       fichas para que un desarrollador
+     con un chat de IA                 lo automatice
+```
 
-1.  **[Work Interpreter](./Work_Interpreter/SKILL.md)** 🧠 (Análisis)
-    *   **Input:** Descripción vaga de un requerimiento (email, nota de voz, texto).
-    *   **Output:** Mapa de *Process Analysis* estructurado (JSON/Markdown) con semáforos de viabilidad.
-    *   **Función:** Actúa como el "Arquitecto" que entiende qué se debe hacer antes de ejecutar.
+| Skill | Para qué sirve | Recibe | Entrega |
+|---|---|---|---|
+| [`coordinador-automatizacion-ia`](./coordinador-automatizacion-ia/SKILL.md) | Dirige el flujo: decide por dónde partir, ofrece las rutas, une los resultados y hace una revisión final | El encargo de la persona | Tabla consolidada y revisión |
+| [`mapeo-de-procesos`](./mapeo-de-procesos/SKILL.md) | Ordena el trabajo en pasos y decisiones, y puntúa cada paso con una rúbrica de 0 a 20 | Un relato (correo, nota, texto) | **Mapa de proceso** |
+| [`prompts-maestros`](./prompts-maestros/SKILL.md) | Ruta ágil: prompts listos para copiar y pegar | Mapa de proceso | Tarjetas de prompts + tabla de cobertura |
+| [`fichas-de-desarrollo`](./fichas-de-desarrollo/SKILL.md) | Ruta técnica: plan para construir la automatización | Mapa de proceso | Fichas de proyecto + matriz de alcance |
 
-2.  **[Prompt Assistant](./Prompt_Assistant/SKILL.md)** 🛠️ (Ingeniería)
-    *   **Input:** El Mapa de *Process Analysis* del paso anterior.
-    *   **Output:** "Prompt Maestro" optimizado y validado.
-    *   **Función:** Transforma el "qué hacer" en instrucciones técnicas precisas para la IA ejecutora.
+Las skills se pasan la información con un formato común, el **mapa de proceso** ([formato](./mapeo-de-procesos/formato-mapa-de-proceso.md)). Cada paso se evalúa con la [rúbrica de idoneidad para IA](./mapeo-de-procesos/rubrica-idoneidad-ia.md):
 
-3.  **[Proposal Generator](./Proposal_Generator/SKILL.md)** 📄 (Ejecución)
-    *   **Input:** Datos crudos + El "Prompt Maestro".
-    *   **Output:** Documento final (Propuesta, Reporte, Correo) en formato profesional.
-    *   **Función:** Ejecuta la tarea final con alta precisión.
+| Puntaje | Semáforo | Significa |
+|---|---|---|
+| 15–20 | 🟢 | Recomendable |
+| 9–14 | 🟡 | Recomendable con control humano |
+| 0–8 | 🔴 | No por ahora |
 
----
+Puedes ver un caso de punta a punta en [ejemplos/flujo-completo-informe-ventas.md](./ejemplos/flujo-completo-informe-ventas.md).
 
-## � Cómo Instalar / Usar
+## 📦 Instalación
 
-### Opción A: En Entornos de Agentes (Antigravity, Cursor, Windsurf)
-Si usas un IDE o Agente con capacidad de leer contexto local:
+**Claude Code**: copia las cuatro carpetas en `.claude/skills/` de tu proyecto, o en `~/.claude/skills/` para tenerlas en todos tus proyectos.
 
-1.  **Copia** las carpetas `Work_Interpreter`, `Prompt_Assistant` y `Proposal_Generator` dentro de tu proyecto o espacio de trabajo.
-2.  **Invoca** la skill mencionándola en el chat con tu agente (ej: *"Usa la skill @Work_Interpreter para analizar esto..."*).
-3.  El Agente leerá automáticamente el archivo `SKILL.md` para entender su rol y restricciones.
+```bash
+git clone https://github.com/gmoapv/biblioteca-skills-ia-agentic.git
+cd biblioteca-skills-ia-agentic
+mkdir -p ~/.claude/skills
+cp -R coordinador-automatizacion-ia mapeo-de-procesos prompts-maestros fichas-de-desarrollo ~/.claude/skills/
+```
 
-### Opción B: En Claude Projects / ChatGPT Team
-Para crear un entorno de trabajo persistente:
+**Claude (app o web)**: comprime cada carpeta en un .zip y súbelo en *Configuración → Capacidades → Skills*.
 
-1.  Crea un nuevo **Project** (Claude) o **Custom GPT**.
-2.  Sube los archivos `SKILL.md` de cada carpeta a la sección de **Knowledge / Knowledge Base**.
-3.  En las **Custom Instructions**, indica:
-    > "Tienes acceso a 3 skills definidas en tu Knowledge: Work Interpreter, Prompt Assistant y Proposal Generator. Úsalas secuencialmente cuando se requiera procesar una solicitud compleja."
+```bash
+for s in coordinador-automatizacion-ia mapeo-de-procesos prompts-maestros fichas-de-desarrollo; do zip -qr "$s.zip" "$s" -x '*.DS_Store'; done
+```
 
-### Opción C: Uso Manual Avanzado
-Puedes copiar el contenido de `SKILL.md` y pegarlo como un "System Prompt" inicial para configurar una sesión de chat larga.
+**Proyectos de Claude o GPT personalizados**: sube los archivos `.md` de las cuatro carpetas como conocimiento y agrega en las instrucciones:
+> "Tienes cuatro skills en tu conocimiento. Cuando alguien quiera usar IA en su trabajo, sigue `coordinador-automatizacion-ia/SKILL.md`, que te dirá cuándo usar las otras tres."
 
----
+**Antigravity, Cursor, Windsurf u otros agentes**: copia las carpetas en tu espacio de trabajo e invócalas por su nombre (por ejemplo, *"usa @coordinador-automatizacion-ia para analizar esto"*).
 
-## 📂 Estructura del Repositorio
+**Uso manual**: pega el contenido de `coordinador-automatizacion-ia/SKILL.md` como primer mensaje de una conversación y luego el de cada skill cuando el coordinador la pida.
 
-*   `/Work_Interpreter`: Lógica de análisis y estructuración de procesos.
-*   `/Prompt_Assistant`: Lógica de meta-prompting y optimización.
-*   `/Proposal_Generator`: Plantillas y lógica de redacción final.
+## 💬 Cómo usarlo
+Cuenta tu trabajo con tus palabras, por ejemplo:
+> "Todos los lunes junto los reportes de las sucursales, los reviso y hago un resumen para la jefatura. ¿Qué parte podría hacer con IA?"
+
+El coordinador te devuelve el mapa, te pregunta qué ruta prefieres y cierra con una tabla de qué se resuelve con prompts, qué con desarrollo y qué sigue siendo manual.
+
+## 🔄 Cambio de nombres (versión 2)
+| Antes | Ahora |
+|---|---|
+| — | `coordinador-automatizacion-ia` (nueva) |
+| `Work_Interpreter` | `mapeo-de-procesos` |
+| `Prompt_Assistant` | `prompts-maestros` |
+| `Proposal_Generator` | `fichas-de-desarrollo` |
+
+Si invocabas las skills por su nombre antiguo (por ejemplo, `@Work_Interpreter`), usa el nuevo. El detalle de los cambios está en [CHANGELOG.md](./CHANGELOG.md).
+
+## 📂 Estructura del repositorio
+```
+coordinador-automatizacion-ia/   SKILL.md
+mapeo-de-procesos/               SKILL.md, formato-mapa-de-proceso.md, rubrica-idoneidad-ia.md, ejemplos.md
+prompts-maestros/                SKILL.md
+fichas-de-desarrollo/            SKILL.md
+ejemplos/                        flujo completo de punta a punta
+```
